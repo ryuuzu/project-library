@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryuuzu's Library</title>
+    <script src="./js/main.js" defer></script>
+</head>
+
+<body>
+    <h1>Welcome to Ryuuzu's Library.</h1>
+    <p>Here you can keep track of all your books and their statuses.</p>
+    <div class="booksList">
+        <table class="librarytable"></table>
+    </div>
+
+    Click here to add new book.
+    <form>
+        <fieldset>
+            <legend>Book Details</legend>
+            <label for="bookName">Name:</label>
+            <input type="text" id="bookName" name="title">
+            <br>
+            <label for="bookAuthor">Author:</label>
+            <input type="text" id="bookAuthor" name="author">
+            <br>
+            <label for="bookPages">Pages:</label>
+            <input type="text" id="bookPages" name="pages">
+            <br>
+            <label for="readStatus">Read Status:</label>
+            <input type="radio" name="readStatus" id="read" value="true">
+            <label for="read">Already Read</label>
+            <input type="radio" name="readStatus" id="notread" value="false" checked>
+            <label for="notread">Not Read Yet</label>
+        </fieldset>
+        <button type="button" id="bookAddButton">Add Book</button>
+    </form>
+</body>
+
+</html>
