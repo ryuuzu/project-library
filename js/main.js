@@ -151,6 +151,17 @@ myLibrary.push(new Book("The Hobbit", "J. R. R. Tolkien", "304", false));
 updateLibraryTable();
 
 let form = document.querySelector(".newBookForm");
-document.querySelector(".newBookButton").addEventListener("click", () => {
+let overlay = document.querySelector(".overlay");
+
+function toggleAddForm() {
 	form.classList.toggle("visible");
-});
+	overlay.classList.toggle("active");
+}
+
+document
+	.querySelector(".newBookButton")
+	.addEventListener("click", toggleAddForm);
+
+document
+	.querySelector("#closeAddForm")
+	.addEventListener("click", toggleAddForm);

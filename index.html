@@ -20,8 +20,14 @@
     <div class="booksList">
         <table class="librarytable"></table>
     </div>
-    <div class="newBookForm visible">
-        <h1>Add Book</h1>
+    <div class="newBookForm">
+        <div class="header">
+            <h1>Add Book</h1>
+            <svg style="width:36px;height:36px" id="closeAddForm" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            </svg>
+        </div>
         <form>
             <fieldset>
                 <legend>Book Details</legend>
@@ -43,6 +49,7 @@
             <button type="button" id="bookAddButton">Add Book</button>
         </form>
     </div>
+    <div class="overlay"></div>
 </body>
 
 </html>
