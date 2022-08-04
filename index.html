@@ -7,36 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryuuzu's Library</title>
     <script src="./js/main.js" defer></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <h1>Welcome to Ryuuzu's Library.</h1>
-    <p>Here you can keep track of all your books and their statuses.</p>
+    <header>
+        <span>Ryuuzu's Library.</span>
+        <div class="controls">
+            <div class="newBookButton">Add New Book</div>
+        </div>
+    </header>
     <div class="booksList">
         <table class="librarytable"></table>
     </div>
-
-    Click here to add new book.
-    <form>
-        <fieldset>
-            <legend>Book Details</legend>
-            <label for="bookName">Name:</label>
-            <input type="text" id="bookName" name="title">
-            <br>
-            <label for="bookAuthor">Author:</label>
-            <input type="text" id="bookAuthor" name="author">
-            <br>
-            <label for="bookPages">Pages:</label>
-            <input type="text" id="bookPages" name="pages">
-            <br>
-            <label for="readStatus">Read Status:</label>
-            <input type="radio" name="readStatus" id="read" value="true">
-            <label for="read">Already Read</label>
-            <input type="radio" name="readStatus" id="notread" value="false" checked>
-            <label for="notread">Not Read Yet</label>
-        </fieldset>
-        <button type="button" id="bookAddButton">Add Book</button>
-    </form>
+    <div class="newBookForm visible">
+        <h1>Add Book</h1>
+        <form>
+            <fieldset>
+                <legend>Book Details</legend>
+                <label for="bookName">Name:</label>
+                <input type="text" id="bookName" name="title">
+                <br>
+                <label for="bookAuthor">Author:</label>
+                <input type="text" id="bookAuthor" name="author">
+                <br>
+                <label for="bookPages">Pages:</label>
+                <input type="text" id="bookPages" name="pages">
+                <br>
+                <label for="readStatus">Read Status:</label>
+                <input type="radio" name="readStatus" id="read" value="true">
+                <label for="read">Already Read</label>
+                <input type="radio" name="readStatus" id="notread" value="false" checked>
+                <label for="notread">Not Read Yet</label>
+            </fieldset>
+            <button type="button" id="bookAddButton">Add Book</button>
+        </form>
+    </div>
 </body>
 
 </html>

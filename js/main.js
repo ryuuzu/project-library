@@ -94,7 +94,9 @@ function getTableBody() {
 
 		let bookEditButton = document.createElement("td");
 		let editButton = document.createElement("button");
-		editButton.innerHTML = "Remove";
+		editButton.classList.add("editButton");
+		editButton.innerHTML =
+			'<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>';
 		editButton.addEventListener("click", () => {
 			let bookID =
 				editButton.parentElement.parentElement.getAttribute("id");
@@ -129,6 +131,7 @@ function addBookToLibrary() {
 	let pages = document.querySelector("#bookPages").value;
 	let readStatus = document.querySelector("#read").checked ? true : false;
 	myLibrary.push(new Book(title, author, pages, readStatus));
+	form.classList.toggle("visible");
 }
 
 document.querySelector("#bookAddButton").addEventListener("click", () => {
@@ -136,6 +139,18 @@ document.querySelector("#bookAddButton").addEventListener("click", () => {
 	updateLibraryTable();
 });
 
-myLibrary.push(new Book("title", "author", "pages", true));
-myLibrary.push(new Book("title", "author", "pages", false));
+myLibrary.push(
+	new Book(
+		"Harry Potter and The Philoshopher's Stone",
+		"J.K. Rowling",
+		"223",
+		true
+	)
+);
+myLibrary.push(new Book("The Hobbit", "J. R. R. Tolkien", "304", false));
 updateLibraryTable();
+
+let form = document.querySelector(".newBookForm");
+document.querySelector(".newBookButton").addEventListener("click", () => {
+	form.classList.toggle("visible");
+});

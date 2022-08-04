@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Poppins&display=swap");
+
+body {
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Poppins;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+header {
+	width: 100%;
+	padding: 30px 20px;
+	margin-bottom: 50px;
+	box-shadow: 0 5px 5px 2px rgba(136, 136, 136, 0.5);
+	text-align: center;
+	font-family: "Mouse Memoirs", sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+header span {
+	font-size: 50px;
+	margin: 10px 20px;
+}
+
+header .controls {
+	font-size: 40px;
+}
+
+header .controls div {
+	margin: 10px 20px;
+	cursor: pointer;
+}
+
+.booksList {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+.librarytable,
+.librarytable td,
+.librarytable th {
+	border: 1px solid black;
+	margin: 0;
+}
+
+.librarytable td,
+.librarytable th {
+	padding: 0.5rem 1rem;
+}
+
+.newBookForm {
+	display: block;
+	position: absolute;
+	top: -400px;
+	background-color: rgba(126, 28, 28, 1);
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 5px 5px rgba(126, 28, 28, 0.5);
+	transition: top 1s ease-in-out;
+}
+
+.newBookForm.visible {
+	top: 40%;
+}
+
+.newBookForm h1 {
+	font-family: "Mouse Memoirs";
+	font-size: 40px;
+	letter-spacing: 1px;
+}
+
+form fieldset {
+	padding: 30px;
+	margin: 10px;
+}
+
+.editButton {
+	border: none;
+	background-color: gray;
+	border-radius: 50%;
+}
+
+.editButton svg {
+	position: relative;
+	top: 2px;
+	padding: 5px 2px;
+}
