@@ -1,11 +1,14 @@
 var myLibrary = [];
 
-function Book(title, author, pages, readStatus) {
+function bookFactory(title, author, pages, readStatus) {
 	this.id = myLibrary.length;
-	this.title = title;
-	this.author = author;
-	this.pages = pages;
-	this.readStatus = readStatus;
+	const getReadStatus = () => {
+		return readStatus;
+	};
+	const changeReadStatus = () => {
+		readStatus = !readStatus;
+	};
+	return { title, author, pages, getReadStatus, changeReadStatus };
 }
 
 function updateBookIDS() {
@@ -71,19 +74,23 @@ function getTableBody() {
 		bookRow.appendChild(bookPages);
 
 		let bookReadStatus = document.createElement("td");
-		bookReadStatus.innerHTML = libraryBook.readStatus ? "read" : "not read";
+		bookReadStatus.innerHTML = libraryBook.getReadStatus()
+			? "read"
+			: "not read";
 		bookRow.appendChild(bookReadStatus);
 
 		let bookMarkRead = document.createElement("td");
 		let markReadButton = document.createElement("button");
-		markReadButton.innerHTML = libraryBook.readStatus ? "Not Read" : "Read";
+		markReadButton.innerHTML = libraryBook.getReadStatus()
+			? "Not Read"
+			: "Read";
 		markReadButton.addEventListener("click", () => {
 			let bookID =
 				markReadButton.parentElement.parentElement.getAttribute("id");
 
 			myLibrary.forEach((book) => {
 				if (book.id == bookID) {
-					book.readStatus = !book.readStatus;
+					book.changeReadStatus();
 				}
 			});
 
@@ -130,8 +137,8 @@ function addBookToLibrary() {
 	let author = document.querySelector("#bookAuthor").value;
 	let pages = document.querySelector("#bookPages").value;
 	let readStatus = document.querySelector("#read").checked ? true : false;
-	myLibrary.push(new Book(title, author, pages, readStatus));
-	form.classList.toggle("visible");
+	myLibrary.push(bookFactory(title, author, pages, readStatus));
+	toggleAddForm();
 }
 
 document.querySelector("#bookAddButton").addEventListener("click", () => {
@@ -140,14 +147,14 @@ document.querySelector("#bookAddButton").addEventListener("click", () => {
 });
 
 myLibrary.push(
-	new Book(
+	bookFactory(
 		"Harry Potter and The Philoshopher's Stone",
 		"J.K. Rowling",
 		"223",
 		true
 	)
 );
-myLibrary.push(new Book("The Hobbit", "J. R. R. Tolkien", "304", false));
+myLibrary.push(bookFactory("The Hobbit", "J. R. R. Tolkien", "304", false));
 updateLibraryTable();
 
 let form = document.querySelector(".newBookForm");
