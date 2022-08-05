@@ -13,7 +13,7 @@ body {
 
 header {
 	width: 100%;
-	padding: 30px 20px;
+	padding: 20px 20px;
 	margin-bottom: 50px;
 	box-shadow: 0 5px 5px 2px rgba(136, 136, 136, 0.5);
 	text-align: center;
@@ -25,7 +25,7 @@ header {
 
 header span {
 	font-size: 50px;
-	margin: 10px 20px;
+	margin: 10px 30px;
 }
 
 header .controls {
@@ -33,7 +33,7 @@ header .controls {
 }
 
 header .controls div {
-	margin: 10px 20px;
+	margin: 10px 30px;
 	cursor: pointer;
 }
 

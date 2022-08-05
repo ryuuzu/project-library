@@ -1,21 +1,48 @@
-var myLibrary = [];
+function libraryFactory(libraryName) {
+	let books = [];
+	const addBook = (book) => {
+		books.push(book);
+	};
+	const getAllBooks = () => {
+		return books;
+	};
+	const getBookByID = (id) => {
+		return books.find((book) => book.id == id);
+	};
+	const markBookRead = (id) => {
+		getBookByID(id).changeReadStatus();
+	};
+	const updateBookIDs = () => {
+		books.forEach((book) => {
+			book.id = books.indexOf(book);
+		});
+	};
+	const removeBookByID = (id) => {
+		books = books.filter((book) => book.id != id);
+	};
+	return {
+		name: libraryName,
+		addBook,
+		getAllBooks,
+		getBookByID,
+		removeBookByID,
+		updateBookIDs,
+		markBookRead,
+	};
+}
 
 function bookFactory(title, author, pages, readStatus) {
-	this.id = myLibrary.length;
+	let id = myLibrary.length;
 	const getReadStatus = () => {
 		return readStatus;
 	};
 	const changeReadStatus = () => {
 		readStatus = !readStatus;
 	};
-	return { title, author, pages, getReadStatus, changeReadStatus };
+	return { id, title, author, pages, getReadStatus, changeReadStatus };
 }
 
-function updateBookIDS() {
-	myLibrary.forEach((book) => {
-		book.id = myLibrary.indexOf(book);
-	});
-}
+var myLibrary = libraryFactory("Ryuuzu's Library");
 
 function getTableHeader() {
 	let headerRow = document.createElement("tr");
@@ -53,7 +80,8 @@ function getTableHeader() {
 
 function getTableBody() {
 	let tableBody = document.createElement("tbody");
-	for (const libraryBook of myLibrary) {
+	libraryBooks = myLibrary.getAllBooks();
+	for (const libraryBook of libraryBooks) {
 		let bookRow = document.createElement("tr");
 		bookRow.setAttribute("id", libraryBook.id);
 
@@ -75,8 +103,8 @@ function getTableBody() {
 
 		let bookReadStatus = document.createElement("td");
 		bookReadStatus.innerHTML = libraryBook.getReadStatus()
-			? "read"
-			: "not read";
+			? "Read"
+			: "Not Read Yet";
 		bookRow.appendChild(bookReadStatus);
 
 		let bookMarkRead = document.createElement("td");
@@ -87,12 +115,7 @@ function getTableBody() {
 		markReadButton.addEventListener("click", () => {
 			let bookID =
 				markReadButton.parentElement.parentElement.getAttribute("id");
-
-			myLibrary.forEach((book) => {
-				if (book.id == bookID) {
-					book.changeReadStatus();
-				}
-			});
+			myLibrary.markBookRead(bookID);
 
 			updateLibraryTable();
 		});
@@ -107,7 +130,7 @@ function getTableBody() {
 		editButton.addEventListener("click", () => {
 			let bookID =
 				editButton.parentElement.parentElement.getAttribute("id");
-			myLibrary = myLibrary.filter((book) => book.id != bookID);
+			myLibrary.removeBookByID(bookID);
 			updateLibraryTable();
 		});
 		bookEditButton.appendChild(editButton);
@@ -119,7 +142,7 @@ function getTableBody() {
 }
 
 function updateLibraryTable() {
-	updateBookIDS();
+	myLibrary.updateBookIDs();
 	let booksList = document.querySelector(".booksList");
 	let oldTable = document.querySelector(".librarytable");
 	let newTable = document.createElement("table");
@@ -137,7 +160,7 @@ function addBookToLibrary() {
 	let author = document.querySelector("#bookAuthor").value;
 	let pages = document.querySelector("#bookPages").value;
 	let readStatus = document.querySelector("#read").checked ? true : false;
-	myLibrary.push(bookFactory(title, author, pages, readStatus));
+	myLibrary.addBook(bookFactory(title, author, pages, readStatus));
 	toggleAddForm();
 }
 
@@ -146,7 +169,7 @@ document.querySelector("#bookAddButton").addEventListener("click", () => {
 	updateLibraryTable();
 });
 
-myLibrary.push(
+myLibrary.addBook(
 	bookFactory(
 		"Harry Potter and The Philoshopher's Stone",
 		"J.K. Rowling",
@@ -154,7 +177,7 @@ myLibrary.push(
 		true
 	)
 );
-myLibrary.push(bookFactory("The Hobbit", "J. R. R. Tolkien", "304", false));
+myLibrary.addBook(bookFactory("The Hobbit", "J. R. R. Tolkien", "304", false));
 updateLibraryTable();
 
 let form = document.querySelector(".newBookForm");
