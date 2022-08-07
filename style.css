@@ -42,6 +42,14 @@ header .controls div {
 	flex-direction: column;
 	gap: 20px;
 }
+
+#sorting {
+	font-size: 18px;
+	font-family: 'Poppins';
+	height: 30px;
+	align-self: flex-end;
+}
+
 .librarytable,
 .librarytable td,
 .librarytable th {

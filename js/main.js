@@ -1,7 +1,21 @@
 function libraryFactory(libraryName) {
 	let books = [];
-	const addBook = (book) => {
-		books.push(book);
+	const getNewBookID = () => {
+		let newBookID;
+		// books.forEach((book, index) => {
+		// 	if (book.id != index) {
+		// 		newBookID = index;
+		// 	}
+		// });
+		if (newBookID === undefined) {
+			newBookID = books.length;
+		}
+		return newBookID;
+	};
+	const addBook = (title, author, pages, readStatus) => {
+		books.push(
+			bookFactory(getNewBookID(), title, author, pages, readStatus)
+		);
 	};
 	const getAllBooks = () => {
 		return books;
@@ -13,9 +27,7 @@ function libraryFactory(libraryName) {
 		getBookByID(id).changeReadStatus();
 	};
 	const updateBookIDs = () => {
-		books.forEach((book) => {
-			book.id = books.indexOf(book);
-		});
+		return;
 	};
 	const removeBookByID = (id) => {
 		books = books.filter((book) => book.id != id);
@@ -31,8 +43,7 @@ function libraryFactory(libraryName) {
 	};
 }
 
-function bookFactory(title, author, pages, readStatus) {
-	let id = myLibrary.length;
+function bookFactory(id, title, author, pages, readStatus) {
 	const getReadStatus = () => {
 		return readStatus;
 	};
@@ -42,7 +53,8 @@ function bookFactory(title, author, pages, readStatus) {
 	return { id, title, author, pages, getReadStatus, changeReadStatus };
 }
 
-var myLibrary = libraryFactory("Ryuuzu's Library");
+const myLibrary = libraryFactory("Ryuuzu's Library");
+var booksToDisplay = myLibrary.getAllBooks();
 
 function getTableHeader() {
 	let headerRow = document.createElement("tr");
@@ -80,8 +92,7 @@ function getTableHeader() {
 
 function getTableBody() {
 	let tableBody = document.createElement("tbody");
-	libraryBooks = myLibrary.getAllBooks();
-	for (const libraryBook of libraryBooks) {
+	for (const libraryBook of booksToDisplay) {
 		let bookRow = document.createElement("tr");
 		bookRow.setAttribute("id", libraryBook.id);
 
@@ -116,7 +127,7 @@ function getTableBody() {
 			let bookID =
 				markReadButton.parentElement.parentElement.getAttribute("id");
 			myLibrary.markBookRead(bookID);
-
+			booksToDisplay = myLibrary.getAllBooks();
 			updateLibraryTable();
 		});
 		bookMarkRead.appendChild(markReadButton);
@@ -131,6 +142,7 @@ function getTableBody() {
 			let bookID =
 				editButton.parentElement.parentElement.getAttribute("id");
 			myLibrary.removeBookByID(bookID);
+			booksToDisplay = myLibrary.getAllBooks();
 			updateLibraryTable();
 		});
 		bookEditButton.appendChild(editButton);
@@ -160,7 +172,7 @@ function addBookToLibrary() {
 	let author = document.querySelector("#bookAuthor").value;
 	let pages = document.querySelector("#bookPages").value;
 	let readStatus = document.querySelector("#read").checked ? true : false;
-	myLibrary.addBook(bookFactory(title, author, pages, readStatus));
+	myLibrary.addBook(title, author, pages, readStatus);
 	toggleAddForm();
 }
 
@@ -169,24 +181,82 @@ document.querySelector("#bookAddButton").addEventListener("click", () => {
 	updateLibraryTable();
 });
 
+myLibrary.addBook("The Hobbit", "J. R. R. Tolkien", "304", false);
 myLibrary.addBook(
-	bookFactory(
-		"Harry Potter and The Philoshopher's Stone",
-		"J.K. Rowling",
-		"223",
-		true
-	)
+	"Harry Potter and The Philoshopher's Stone",
+	"J.K. Rowling",
+	"223",
+	true
 );
-myLibrary.addBook(bookFactory("The Hobbit", "J. R. R. Tolkien", "304", false));
 updateLibraryTable();
 
 let form = document.querySelector(".newBookForm");
 let overlay = document.querySelector(".overlay");
+let sortOption = document.querySelector("#sorting");
 
 function toggleAddForm() {
 	form.classList.toggle("visible");
 	overlay.classList.toggle("active");
 }
+
+sortOption.addEventListener("change", (event) => {
+	switch (event.target.value) {
+		case "sortByID":
+			booksToDisplay = myLibrary
+				.getAllBooks()
+				.sort((a, b) => a.id - b.id);
+			updateLibraryTable();
+			break;
+		case "sortByIDDesc":
+			booksToDisplay = myLibrary
+				.getAllBooks()
+				.sort((a, b) => b.id - a.id);
+			updateLibraryTable();
+			break;
+		case "sortByLength":
+			booksToDisplay = myLibrary
+				.getAllBooks()
+				.sort((a, b) => a.pages - b.pages);
+			updateLibraryTable();
+			break;
+		case "sortByLengthDesc":
+			booksToDisplay = myLibrary
+				.getAllBooks()
+				.sort((a, b) => b.pages - a.pages);
+			updateLibraryTable();
+			break;
+		case "sortByName":
+			booksToDisplay = myLibrary.getAllBooks().sort((a, b) => {
+				const nameA = a.title.toUpperCase();
+				const nameB = b.title.toUpperCase();
+				if (nameA < nameB) {
+					return -1;
+				}
+				if (nameA > nameB) {
+					return 1;
+				}
+				return 0;
+			});
+			updateLibraryTable();
+			break;
+		case "sortByNameDesc":
+			booksToDisplay = myLibrary.getAllBooks().sort((a, b) => {
+				const nameA = a.title.toUpperCase();
+				const nameB = b.title.toUpperCase();
+				if (nameA < nameB) {
+					return 1;
+				}
+				if (nameA > nameB) {
+					return -1;
+				}
+				return 0;
+			});
+			updateLibraryTable();
+			break;
+		default:
+			break;
+	}
+});
 
 document
 	.querySelector(".newBookButton")
