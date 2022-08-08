@@ -7,7 +7,14 @@ const myLibrary = ((libraryName) => {
 		// 		newBookID = index;
 		// 	}
 		// });
-		newBookID = book[-1].id + 1;
+		try {
+			let lastBookID = books[books.length - 1].id;
+		} catch (error) {
+			newBookID = 0;
+		}
+		if (newBookID === undefined) {
+			newBookID = books[books.length - 1].id + 1;
+		}
 		return newBookID;
 	};
 	const addBook = (title, author, pages, readStatus) => {
