@@ -1,4 +1,4 @@
-function libraryFactory(libraryName) {
+const myLibrary = ((libraryName) => {
 	let books = [];
 	const getNewBookID = () => {
 		let newBookID;
@@ -41,7 +41,7 @@ function libraryFactory(libraryName) {
 		updateBookIDs,
 		markBookRead,
 	};
-}
+})("Ryuuzu's Library");
 
 function bookFactory(id, title, author, pages, readStatus) {
 	const getReadStatus = () => {
@@ -53,7 +53,6 @@ function bookFactory(id, title, author, pages, readStatus) {
 	return { id, title, author, pages, getReadStatus, changeReadStatus };
 }
 
-const myLibrary = libraryFactory("Ryuuzu's Library");
 var booksToDisplay = myLibrary.getAllBooks();
 
 function getTableHeader() {
