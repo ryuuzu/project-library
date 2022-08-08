@@ -7,9 +7,7 @@ const myLibrary = ((libraryName) => {
 		// 		newBookID = index;
 		// 	}
 		// });
-		if (newBookID === undefined) {
-			newBookID = books.length;
-		}
+		newBookID = book[-1].id + 1;
 		return newBookID;
 	};
 	const addBook = (title, author, pages, readStatus) => {
