@@ -2,11 +2,6 @@ const myLibrary = ((libraryName) => {
 	let books = [];
 	const getNewBookID = () => {
 		let newBookID;
-		// books.forEach((book, index) => {
-		// 	if (book.id != index) {
-		// 		newBookID = index;
-		// 	}
-		// });
 		try {
 			let lastBookID = books[books.length - 1].id;
 		} catch (error) {
