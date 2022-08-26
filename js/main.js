@@ -74,16 +74,9 @@ class book {
 	}
 }
 
-function bookFactory2(id, title, author, pages, readStatus) {
-	const getReadStatus = () => {
-		return readStatus;
-	};
-	const changeReadStatus = () => {
-		readStatus = !readStatus;
-	};
-	return { id, title, author, pages, getReadStatus, changeReadStatus };
+function bookFactory(id, title, author, pages, readStatus) {
+	return new book(id, title, author, pages, readStatus);
 }
-
 var booksToDisplay = myLibrary.books;
 
 function getTableHeader() {
@@ -143,16 +136,14 @@ function getTableBody() {
 		bookRow.appendChild(bookPages);
 
 		let bookReadStatus = document.createElement("td");
-		bookReadStatus.innerHTML = libraryBook.getReadStatus()
+		bookReadStatus.innerHTML = libraryBook.readStatus
 			? "Read"
 			: "Not Read Yet";
 		bookRow.appendChild(bookReadStatus);
 
 		let bookMarkRead = document.createElement("td");
 		let markReadButton = document.createElement("button");
-		markReadButton.innerHTML = libraryBook.getReadStatus()
-			? "Not Read"
-			: "Read";
+		markReadButton.innerHTML = libraryBook.readStatus ? "Not Read" : "Read";
 		markReadButton.addEventListener("click", () => {
 			let bookID =
 				markReadButton.parentElement.parentElement.getAttribute("id");

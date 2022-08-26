@@ -50,6 +50,10 @@ header .controls div {
 	align-self: flex-end;
 }
 
+.librarytable {
+	width: 1500px;
+}
+
 .librarytable,
 .librarytable td,
 .librarytable th {
