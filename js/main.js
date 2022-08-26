@@ -1,49 +1,80 @@
-const myLibrary = ((libraryName) => {
-	let books = [];
-	const getNewBookID = () => {
+class Library {
+	constructor(libraryName) {
+		this._name = libraryName;
+		this._books = [];
+	}
+
+	get books() {
+		return this._books;
+	}
+
+	get name() {
+		return this._name;
+	}
+
+	getNewBookID() {
 		let newBookID;
 		try {
-			let lastBookID = books[books.length - 1].id;
+			let lastBookID = this._books[this._books.length - 1].id;
 		} catch (error) {
 			newBookID = 0;
 		}
 		if (newBookID === undefined) {
-			newBookID = books[books.length - 1].id + 1;
+			newBookID = this._books[this._books.length - 1].id + 1;
 		}
 		return newBookID;
-	};
-	const addBook = (title, author, pages, readStatus) => {
-		books.push(
-			bookFactory(getNewBookID(), title, author, pages, readStatus)
+	}
+	addBook(title, author, pages, readStatus) {
+		this._books.push(
+			bookFactory(this.getNewBookID(), title, author, pages, readStatus)
 		);
-	};
-	const getAllBooks = () => {
-		return books;
-	};
-	const getBookByID = (id) => {
-		return books.find((book) => book.id == id);
-	};
-	const markBookRead = (id) => {
+	}
+	getBookByID(id) {
+		return this._books.find((book) => book.id == id);
+	}
+	markBookRead(id) {
 		getBookByID(id).changeReadStatus();
-	};
-	const updateBookIDs = () => {
+	}
+	updateBookIDs() {
 		return;
-	};
-	const removeBookByID = (id) => {
-		books = books.filter((book) => book.id != id);
-	};
-	return {
-		name: libraryName,
-		addBook,
-		getAllBooks,
-		getBookByID,
-		removeBookByID,
-		updateBookIDs,
-		markBookRead,
-	};
-})("Ryuuzu's Library");
+	}
+	removeBookByID(id) {
+		this._books = this._books.filter((book) => book.id != id);
+	}
+}
 
-function bookFactory(id, title, author, pages, readStatus) {
+const myLibrary = new Library("Ryuuzu's Library");
+
+class book {
+	constructor(id, title, author, pages, readStatus) {
+		this._id = id;
+		this._title = title;
+		this._author = author;
+		this._pages = pages;
+		this._readStatus = readStatus;
+	}
+
+	get id() {
+		return this._id;
+	}
+	get title() {
+		return this._title;
+	}
+	get author() {
+		return this._author;
+	}
+	get pages() {
+		return this._pages;
+	}
+	get readStatus() {
+		return this._readStatus;
+	}
+	changeReadStatus() {
+		this._readStatus = !this._readStatus;
+	}
+}
+
+function bookFactory2(id, title, author, pages, readStatus) {
 	const getReadStatus = () => {
 		return readStatus;
 	};
@@ -53,7 +84,7 @@ function bookFactory(id, title, author, pages, readStatus) {
 	return { id, title, author, pages, getReadStatus, changeReadStatus };
 }
 
-var booksToDisplay = myLibrary.getAllBooks();
+var booksToDisplay = myLibrary.books;
 
 function getTableHeader() {
 	let headerRow = document.createElement("tr");
@@ -126,7 +157,7 @@ function getTableBody() {
 			let bookID =
 				markReadButton.parentElement.parentElement.getAttribute("id");
 			myLibrary.markBookRead(bookID);
-			booksToDisplay = myLibrary.getAllBooks();
+			booksToDisplay = myLibrary.books;
 			updateLibraryTable();
 		});
 		bookMarkRead.appendChild(markReadButton);
@@ -141,7 +172,7 @@ function getTableBody() {
 			let bookID =
 				editButton.parentElement.parentElement.getAttribute("id");
 			myLibrary.removeBookByID(bookID);
-			booksToDisplay = myLibrary.getAllBooks();
+			booksToDisplay = myLibrary.books;
 			updateLibraryTable();
 		});
 		bookEditButton.appendChild(editButton);
@@ -187,6 +218,16 @@ myLibrary.addBook(
 	"223",
 	true
 );
+myLibrary.addBook("The Lord of The Rings", "J. R. R. Tolkien", "1178", true);
+myLibrary.addBook("The Silmarillion", "J. R. R. Tolkien", "412", false);
+myLibrary.addBook(
+	"The Fellowship of The Ring",
+	"J. R. R. Tolkien",
+	"423",
+	true
+);
+myLibrary.addBook("The Two Towers", "J. R. R. Tolkien", "352", true);
+booksToDisplay = myLibrary.books;
 updateLibraryTable();
 
 let form = document.querySelector(".newBookForm");
@@ -201,31 +242,23 @@ function toggleAddForm() {
 sortOption.addEventListener("change", (event) => {
 	switch (event.target.value) {
 		case "sortByID":
-			booksToDisplay = myLibrary
-				.getAllBooks()
-				.sort((a, b) => a.id - b.id);
+			booksToDisplay = myLibrary.books.sort((a, b) => a.id - b.id);
 			updateLibraryTable();
 			break;
 		case "sortByIDDesc":
-			booksToDisplay = myLibrary
-				.getAllBooks()
-				.sort((a, b) => b.id - a.id);
+			booksToDisplay = myLibrary.books.sort((a, b) => b.id - a.id);
 			updateLibraryTable();
 			break;
 		case "sortByLength":
-			booksToDisplay = myLibrary
-				.getAllBooks()
-				.sort((a, b) => a.pages - b.pages);
+			booksToDisplay = myLibrary.books.sort((a, b) => a.pages - b.pages);
 			updateLibraryTable();
 			break;
 		case "sortByLengthDesc":
-			booksToDisplay = myLibrary
-				.getAllBooks()
-				.sort((a, b) => b.pages - a.pages);
+			booksToDisplay = myLibrary.books.sort((a, b) => b.pages - a.pages);
 			updateLibraryTable();
 			break;
 		case "sortByName":
-			booksToDisplay = myLibrary.getAllBooks().sort((a, b) => {
+			booksToDisplay = myLibrary.books.sort((a, b) => {
 				const nameA = a.title.toUpperCase();
 				const nameB = b.title.toUpperCase();
 				if (nameA < nameB) {
@@ -239,7 +272,7 @@ sortOption.addEventListener("change", (event) => {
 			updateLibraryTable();
 			break;
 		case "sortByNameDesc":
-			booksToDisplay = myLibrary.getAllBooks().sort((a, b) => {
+			booksToDisplay = myLibrary.books.sort((a, b) => {
 				const nameA = a.title.toUpperCase();
 				const nameB = b.title.toUpperCase();
 				if (nameA < nameB) {
